@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 
-if __name__ == '__main__':
+def crawl():
     UserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36'
     headers = {
         'User-Agent': UserAgent
@@ -29,12 +29,16 @@ if __name__ == '__main__':
     f = open('list.csv', 'a', encoding='UTF-8')
 
     for idx, r in enumerate(result):
-        print(r)
-        print(r.span.text)
-        print(r['href'])
-        print('thumb:', thumb[idx].text)
-        print()
+        #print(r)
+        #print(r.span.text)
+        #print(r['href'])
+        #print('thumb:', thumb[idx].text)
+        #print()
 
         f.write('{},{},{}\n'.format(r.span.text.replace(',', ''), 'https://www.dcard.tw' + r['href'], thumb[idx].text))
 
     f.close()
+    
+if __name__ == "__main__":
+    crawl()
+   
