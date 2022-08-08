@@ -7,6 +7,9 @@ import crawler
 import pandas as pd
 import random
 
+# chinese text generation
+from text_gen import generate_text
+
 # read key token
 from dotenv import dotenv_values
 
@@ -30,6 +33,24 @@ async def on_message(message):
     #如果包含 ping，機器人回傳 pong
     if message.content == 'ping':
         await message.channel.send('pong')
+
+    elif message.content[:4] == '!講幹話':
+        # user input
+        user_input = message.content[5:]
+        # sanity check
+        await message.channel.send("你的輸入: " + "\"" + str(user_input) + "\"")
+        
+        # fit generation model
+        out_len = 150
+        if len(user_input) > 100:
+            out_len = 300
+        elif len(user_input) > 300:
+            await message.channel.send("我最多只能輸入 300 個字，Sorry~")
+        
+        output_text = generate_text(user_input, out_len)
+        # output result
+        await message.channel.send('我產生的幹話：')
+        await message.channel.send(output_text)
     
     elif message.content == '給我爬':
         crawler.crawl()
